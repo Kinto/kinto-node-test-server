@@ -1,0 +1,19 @@
+language:
+- node_js
+- python
+node_js:
+- "6"
+python:
+- "3.5"
+env:
+- SERVER=2.1.0 ACTION=test
+- SERVER=development ACTION=test
+before_install:
+- export PATH=$HOME/.local/bin:$PATH
+- pip install --user `whoami` virtualenv
+- virtualenv .venv
+- if [[ $SERVER && $SERVER != development ]]; then .venv/bin/pip install kinto==$SERVER; fi
+- if [[ $SERVER && $SERVER == development ]]; then .venv/bin/pip install https://github.com/Kinto/kinto/zipball/master; fi
+- export KINTO_PSERVE_EXECUTABLE=.venv/bin/pserve
+script:
+- npm $ACTION

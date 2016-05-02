@@ -1,0 +1,30 @@
+{
+  "name": "kinto-node-test-server",
+  "version": "0.0.1",
+  "description": "A node API for operating a Kinto test server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kinto/kinto-node-test-server.git"
+  },
+  "keywords": [
+    "kinto",
+    "test",
+    "server"
+  ],
+  "author": "\"Mozilla Storage Team\" <storage@mozilla.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Kinto/kinto-node-test-server/issues"
+  },
+  "homepage": "https://github.com/Kinto/kinto-node-test-server#readme",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
