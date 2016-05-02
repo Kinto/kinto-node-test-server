@@ -9,6 +9,10 @@ A node API for operating a Kinto test server providing the following features:
 
 **Note that a Python virtualenv must be installed in your project, and the `kinto` pip package installed within that environment.**
 
+## Prerequisites
+
+NodeJS >= v6 is required.
+
 ## Installation
 
 ```
