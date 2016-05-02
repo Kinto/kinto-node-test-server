@@ -1,5 +1,7 @@
 # kinto-node-test-server
 
+[![Build Status](https://travis-ci.org/Kinto/kinto-node-test-server.svg?branch=master)](https://travis-ci.org/Kinto/kinto-node-test-server)
+
 A node API for operating a Kinto test server providing the following features:
 
 - starting a server (optionally with supplementary configuration flags)
