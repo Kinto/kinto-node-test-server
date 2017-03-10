@@ -5,9 +5,11 @@ describe("Test Kinto server", function() {
   let server;
 
   before(function() {
-    server = new KintoServer("http://0.0.0.0:8888/v1", {
-      kintoConfigPath: __dirname + "/kinto.ini"
-    });
+    let kintoConfigPath = __dirname + "/kinto.ini";
+    if (process.env.SERVER && process.env.SERVER !== "master") {
+      kintoConfigPath = `${__dirname}/kinto-${process.env.SERVER}.ini`;
+    }
+    server = new KintoServer("http://0.0.0.0:8888/v1", { kintoConfigPath });
   });
 
   after(function() {
@@ -24,10 +26,9 @@ describe("Test Kinto server", function() {
     });
 
     it("should flush a server", function() {
-      return server.flush()
-        .then(function(r) {
-          assert.equal(r.status, 202);
-        });
+      return server.flush().then(function(r) {
+        assert.equal(r.status, 202);
+      });
     });
   });
 });

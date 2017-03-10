@@ -6,7 +6,7 @@ node_js:
 python:
 - "3.5"
 env:
-- SERVER=2.1.0 ACTION=test
+- SERVER=5.3.6 ACTION=test
 - SERVER=development ACTION=test
 before_install:
 - export PATH=$HOME/.local/bin:$PATH
