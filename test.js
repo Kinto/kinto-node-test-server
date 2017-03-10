@@ -25,6 +25,12 @@ describe("Test Kinto server", function() {
       return server.stop();
     });
 
+    it("should ping a server", function() {
+      return server.ping().then(function(r) {
+        assert.equal(typeof r, "string");
+      });
+    });
+
     it("should flush a server", function() {
       return server.flush().then(function(r) {
         assert.equal(r.status, 202);
