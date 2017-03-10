@@ -16,7 +16,7 @@ class KintoServer {
     this.options = Object.assign({}, DEFAULT_OPTIONS, options);
   }
 
-  _retryRequest(url, options, attempt=1) {
+  _retryRequest(url, options, attempt = 1) {
     const { maxAttempts } = this.options;
     return fetch(url, options)
       .then(res => {
@@ -28,9 +28,12 @@ class KintoServer {
       .catch(err => {
         if (attempt < maxAttempts) {
           return new Promise(resolve => {
-            setTimeout(_ => {
-              resolve(this._retryRequest(url, options, attempt + 1));
-            }, 100);
+            setTimeout(
+              () => {
+                resolve(this._retryRequest(url, options, attempt + 1));
+              },
+              100
+            );
           });
         }
         throw new Error(`Max attempts number reached (${maxAttempts}); ${err}`);
@@ -50,15 +53,17 @@ class KintoServer {
     this.process = spawn(
       this.options.pservePath,
       [this.options.kintoConfigPath],
-      {env, detached: true}
+      { env, detached: true }
     );
     this.process.stderr.on("data", data => {
       this.logs.push(data);
     });
     this.process.on("close", code => {
       if (code && code > 0) {
-        throw new Error("Server errors encountered:\n" +
-          this.logs.map(line => line.toString()).join(""));
+        throw new Error(
+          "Server errors encountered:\n" +
+            this.logs.map(line => line.toString()).join("")
+        );
       }
     });
     return this.ping();
@@ -73,7 +78,7 @@ class KintoServer {
 
   flush(attempt = 1) {
     const endpoint = `${this.url}/__flush__`;
-    return this._retryRequest(endpoint, {method: "POST"}, {}, 1);
+    return this._retryRequest(endpoint, { method: "POST" }, 1);
   }
 
   stop() {
@@ -85,7 +90,7 @@ class KintoServer {
   }
 
   killAll() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       spawn("killall", ["pserve"]).on("close", () => resolve());
     });
   }
