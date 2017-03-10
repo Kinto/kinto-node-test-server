@@ -73,7 +73,7 @@ class KintoServer {
 
   flush(attempt = 1) {
     const endpoint = `${this.url}/__flush__`;
-    return this._retryRequest(endpoint, {method: "POST"}, {}, 1);
+    return this._retryRequest(endpoint, {method: "POST"}, 1);
   }
 
   stop() {
