@@ -7,6 +7,16 @@ const DEFAULT_OPTIONS = {
   pservePath: process.env.KINTO_PSERVE_EXECUTABLE || "pserve",
 };
 
+function copyExisting(obj, keys) {
+  const ret = {};
+  for (const key of keys) {
+    if (obj.hasOwnProperty(key)) {
+      ret[key] = obj[key];
+    }
+  }
+  return ret;
+}
+
 class KintoServer {
   constructor(url, options = {}) {
     this.url = url;
@@ -44,12 +54,17 @@ class KintoServer {
     if (this.process) {
       throw new Error("Server is already started.");
     }
-    // Add the provided environment variables to the child process environment.
+    this.logs = [];
     // Keeping parent's environment is needed so that pserve's executable
     // can be found (with PATH) if KINTO_PSERVE_EXECUTABLE env variable was
     // not provided.
-    this.logs = [];
-    env = Object.assign({}, process.env, env);
+    // However, Kinto's config parsing logic tries to interpolate any
+    // %-code in any environment variable, so rather than polluting
+    // the environment with everything, just copy the variables we
+    // think will be necessary.
+    const sanitizedEnv = copyExisting(process.env, ["PATH", "VIRTUAL_ENV"]);
+    // Add the provided environment variables to the child process environment.
+    env = Object.assign({}, sanitizedEnv, env);
     this.process = spawn(
       this.options.pservePath,
       [this.options.kintoConfigPath],
