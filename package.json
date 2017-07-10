@@ -1,6 +1,6 @@
 {
   "name": "kinto-node-test-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A node API for operating a Kinto test server.",
   "main": "index.js",
   "engines": {
