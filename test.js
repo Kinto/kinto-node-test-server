@@ -18,6 +18,7 @@ describe("Test Kinto server", function() {
 
   describe("Default test server", function() {
     beforeEach(function() {
+      this.timeout(5000);
       return server.start();
     });
 
