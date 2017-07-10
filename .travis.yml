@@ -2,7 +2,6 @@ language: python
 python:
  - "3.5"
 env:
-- SERVER=5.3.6 ACTION=test
 - SERVER=master ACTION=test
 before_install:
 - export PATH=$HOME/.local/bin:$PATH
