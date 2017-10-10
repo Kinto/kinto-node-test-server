@@ -54,7 +54,6 @@ class KintoServer {
     if (this.process) {
       throw new Error("Server is already started.");
     }
-    this.logs = [];
     // Keeping parent's environment is needed so that pserve's executable
     // can be found (with PATH) if KINTO_PSERVE_EXECUTABLE env variable was
     // not provided.
