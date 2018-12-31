@@ -61,7 +61,7 @@ class KintoServer {
     // %-code in any environment variable, so rather than polluting
     // the environment with everything, just copy the variables we
     // think will be necessary.
-    const sanitizedEnv = copyExisting(process.env, ["PATH", "VIRTUAL_ENV"]);
+    const sanitizedEnv = copyExisting(process.env, ["PATH", "VIRTUAL_ENV", "PYTHONPATH"]);
     // Add the provided environment variables to the child process environment.
     env = Object.assign({}, sanitizedEnv, env);
     this.process = spawn(
