@@ -105,7 +105,11 @@ class KintoServer {
 
   killAll() {
     return new Promise(resolve => {
-      spawn("killall", ["pserve"]).on("close", () => resolve());
+      if (process.platform === "win32") {
+        spawn("taskkill", ["/im", "pserve.exe"]).on("close", () => resolve());
+      } else {
+        spawn("killall", ["pserve"]).on("close", () => resolve());
+      }
     });
   }
 }
