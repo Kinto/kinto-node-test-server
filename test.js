@@ -38,4 +38,16 @@ describe("Test Kinto server", function() {
       });
     });
   });
+
+  describe("with non-existant pserve", function() {
+    it("should throw an error", function() {
+      const serverWithInvalidPserve = new KintoServer(
+        "http://0.0.0.0:8888/v1",
+        { pservePath: "pserve-that-doesnt-exist" }
+      );
+      assert.throws(() => {
+        serverWithInvalidPserve.start();
+      }, /^Error: Unable to find or execute pserve-that-doesnt-exist.$/);
+    });
+  });
 });

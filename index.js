@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const { spawn } = require("child_process");
+const { spawn, execSync } = require("child_process");
 
 const DEFAULT_OPTIONS = {
   maxAttempts: 50,
@@ -15,6 +15,18 @@ function copyExisting(obj, keys) {
     }
   }
   return ret;
+}
+
+function checkForPserve(pservePath) {
+  try {
+    execSync(`${pservePath} --help`, { stdio: "ignore" });
+  } catch (err) {
+    throw new Error(
+      pservePath === "pserve"
+        ? "Unable to find pserve in PATH. Have you installed kinto?"
+        : `Unable to find or execute ${pservePath}.`
+    );
+  }
 }
 
 class KintoServer {
@@ -65,6 +77,7 @@ class KintoServer {
     ]);
     // Add the provided environment variables to the child process environment.
     env = Object.assign({}, sanitizedEnv, env);
+    checkForPserve(this.options.pservePath);
     this.process = spawn(
       this.options.pservePath,
       [this.options.kintoConfigPath],
