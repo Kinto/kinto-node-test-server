@@ -23,7 +23,7 @@ function checkForPserve(pservePath) {
   } catch (err) {
     throw new Error(
       pservePath === "pserve"
-        ? "Unable to find pserve in PATH. Have you installed kinto?"
+        ? "Unable to find pserve in PATH. Have you installed kinto or activated your virtualenv?"
         : `Unable to find or execute ${pservePath}.`
     );
   }
