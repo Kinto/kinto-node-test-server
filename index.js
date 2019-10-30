@@ -38,12 +38,9 @@ class KintoServer {
       .catch(err => {
         if (attempt < maxAttempts) {
           return new Promise(resolve => {
-            setTimeout(
-              () => {
-                resolve(this._retryRequest(url, options, attempt + 1));
-              },
-              100
-            );
+            setTimeout(() => {
+              resolve(this._retryRequest(url, options, attempt + 1));
+            }, 100);
           });
         }
         throw new Error(`Max attempts number reached (${maxAttempts}); ${err}`);
@@ -61,7 +58,11 @@ class KintoServer {
     // %-code in any environment variable, so rather than polluting
     // the environment with everything, just copy the variables we
     // think will be necessary.
-    const sanitizedEnv = copyExisting(process.env, ["PATH", "VIRTUAL_ENV", "PYTHONPATH"]);
+    const sanitizedEnv = copyExisting(process.env, [
+      "PATH",
+      "VIRTUAL_ENV",
+      "PYTHONPATH",
+    ]);
     // Add the provided environment variables to the child process environment.
     env = Object.assign({}, sanitizedEnv, env);
     this.process = spawn(
@@ -87,7 +88,7 @@ class KintoServer {
     const endpoint = `${this.url}/`;
     return this._retryRequest(endpoint, {}, 1)
       .then(res => res.json())
-      .then(json => this.http_api_version = json.http_api_version);
+      .then(json => (this.http_api_version = json.http_api_version));
   }
 
   flush(attempt = 1) {
