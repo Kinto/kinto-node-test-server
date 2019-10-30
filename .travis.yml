@@ -10,7 +10,7 @@ before_install:
   - source ~/.nvm/nvm.sh
   - nvm install 12 # for Node v12
   - node --version
-  - npm install
+  - npm ci
   - curl https://raw.githubusercontent.com/Kinto/kinto/master/requirements.txt > versions.txt
   - pip install https://github.com/Kinto/kinto/zipball/master --constraint versions.txt
   - if [[ $SERVER && $SERVER != "master" ]]; then pip install kinto==$SERVER; fi
