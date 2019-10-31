@@ -39,7 +39,7 @@ describe("Test Kinto server", function() {
     });
   });
 
-  describe("with non-existant pserve", function() {
+  describe("with non-existent pserve", function() {
     it("should throw an error", function() {
       const serverWithInvalidPserve = new KintoServer(
         "http://0.0.0.0:8888/v1",
