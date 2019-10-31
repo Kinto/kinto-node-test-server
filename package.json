@@ -7,7 +7,9 @@
     "node": ">=6"
   },
   "scripts": {
-    "test": "mocha test.js"
+    "test": "mocha test.js",
+    "cs-check": "prettier -l \"*.{js,ts}\"",
+    "cs-format": "prettier \"*.{js,ts}\" --write"
   },
   "repository": {
     "type": "git",
@@ -25,9 +27,10 @@
   },
   "homepage": "https://github.com/Kinto/kinto-node-test-server#readme",
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^6.2.2",
+    "prettier": "^1.18.2"
   },
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
+    "node-fetch": "^2.6.0"
   }
 }

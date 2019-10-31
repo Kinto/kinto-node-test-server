@@ -1,5 +1,5 @@
-const fetch = require("isomorphic-fetch");
-const { spawn } = require("child_process");
+const fetch = require("node-fetch");
+const { spawn, execSync } = require("child_process");
 
 const DEFAULT_OPTIONS = {
   maxAttempts: 50,
@@ -15,6 +15,18 @@ function copyExisting(obj, keys) {
     }
   }
   return ret;
+}
+
+function checkForPserve(pservePath) {
+  try {
+    execSync(`${pservePath} --help`, { stdio: "ignore" });
+  } catch (err) {
+    throw new Error(
+      pservePath === "pserve"
+        ? "Unable to find pserve in PATH. Have you installed kinto or activated your virtualenv?"
+        : `Unable to find or execute ${pservePath}.`
+    );
+  }
 }
 
 class KintoServer {
@@ -38,12 +50,9 @@ class KintoServer {
       .catch(err => {
         if (attempt < maxAttempts) {
           return new Promise(resolve => {
-            setTimeout(
-              () => {
-                resolve(this._retryRequest(url, options, attempt + 1));
-              },
-              100
-            );
+            setTimeout(() => {
+              resolve(this._retryRequest(url, options, attempt + 1));
+            }, 100);
           });
         }
         throw new Error(`Max attempts number reached (${maxAttempts}); ${err}`);
@@ -61,9 +70,14 @@ class KintoServer {
     // %-code in any environment variable, so rather than polluting
     // the environment with everything, just copy the variables we
     // think will be necessary.
-    const sanitizedEnv = copyExisting(process.env, ["PATH", "VIRTUAL_ENV", "PYTHONPATH"]);
+    const sanitizedEnv = copyExisting(process.env, [
+      "PATH",
+      "VIRTUAL_ENV",
+      "PYTHONPATH",
+    ]);
     // Add the provided environment variables to the child process environment.
     env = Object.assign({}, sanitizedEnv, env);
+    checkForPserve(this.options.pservePath);
     this.process = spawn(
       this.options.pservePath,
       [this.options.kintoConfigPath],
@@ -87,7 +101,7 @@ class KintoServer {
     const endpoint = `${this.url}/`;
     return this._retryRequest(endpoint, {}, 1)
       .then(res => res.json())
-      .then(json => this.http_api_version = json.http_api_version);
+      .then(json => (this.http_api_version = json.http_api_version));
   }
 
   flush(attempt = 1) {
