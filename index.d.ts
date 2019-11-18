@@ -3,10 +3,11 @@ export interface KintoServerOptions {
   pservePath?: string;
   kintoConfigPath?: string;
 }
-export declare class KintoServer {
+
+declare class KintoServer {
   private url;
   private process;
-  private logs;
+  logs: Buffer[];
   http_api_version: string | null;
   private options;
   constructor(url: string, options?: KintoServerOptions);
@@ -17,3 +18,5 @@ export declare class KintoServer {
   stop(): Promise<void>;
   killAll(): Promise<void>;
 }
+
+export default KintoServer;
