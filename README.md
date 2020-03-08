@@ -63,6 +63,14 @@ describe("Test Kinto server", function() {
 });
 ```
 
+### CommonJS
+
+If you're using the library in a CommonJS environment, you'll need to use the following to import the library:
+
+```js
+const KintoServer = require("kinto-node-test-server").default;
+```
+
 Note that all `KintoServer` instance methods return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ## Browser API
