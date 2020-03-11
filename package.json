@@ -8,6 +8,10 @@
   "engines": {
     "node": ">=10"
   },
+  "files": [
+    "/lib",
+    "kinto.ini"
+  ],
   "scripts": {
     "test-cover": "nyc --reporter=lcov --reporter=text-summary --report-dir=coverage npm run test",
     "test-cover-html": "nyc --reporter=html --report-dir=coverage npm run test",
