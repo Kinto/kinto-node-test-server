@@ -84,7 +84,7 @@ const server = new KintoProxyServer();
 await server.startServer();
 ```
 
-You can then connecto to the proxy server and use the same Node API with the following:
+You can then connect to to the proxy server and use the same Node API with the following:
 
 ```js
 import KintoServer from "kinto-node-test-server";
