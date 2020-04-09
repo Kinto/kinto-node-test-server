@@ -1,2 +1,5 @@
 node_modules
 .venv
+lib
+coverage
+.nyc_output

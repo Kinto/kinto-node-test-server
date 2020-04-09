@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Kinto/kinto-node-test-server.svg?branch=master)](https://travis-ci.org/Kinto/kinto-node-test-server)
 
-A node API for operating a Kinto test server providing the following features:
+A Node and browser API for operating a Kinto test server providing the following features:
 
 - starting a server (optionally with supplementary configuration flags)
 - stopping a server
@@ -13,7 +13,7 @@ A node API for operating a Kinto test server providing the following features:
 
 ## Prerequisites
 
-NodeJS >= v6 is required.
+Node >= v10 is required.
 
 ## Installation
 
@@ -32,13 +32,12 @@ Sample usage using [mocha](https://opencollective.com/mochajs):
 ```js
 import KintoServer from "kinto-node-test-server";
 
-
 describe("Test Kinto server", function() {
   let server;
 
   before(function() {
     server = new KintoServer("http://0.0.0.0:8888/v1", {
-      kintoConfigPath: __dirname + "/kinto.ini"
+      kintoConfigPath: __dirname + "/kinto.ini",
     });
   });
 
@@ -56,16 +55,42 @@ describe("Test Kinto server", function() {
     });
 
     it("should flush a server", function() {
-      return server.flush()
-        .then(function() {
-          console.log("yay flushed")
-        });
+      return server.flush().then(function() {
+        console.log("yay flushed");
+      });
     });
   });
 });
 ```
 
+### CommonJS
+
+If you're using the library in a CommonJS environment, you'll need to use the following to import the library:
+
+```js
+const KintoServer = require("kinto-node-test-server").default;
+```
+
 Note that all `KintoServer` instance methods return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+## Browser API
+
+The browser client follows the same API as the Node client. The browser client requires a proxy server, which you can launch with the following:
+
+```js
+import { KintoProxyServer } from "kinto-node-test-server";
+
+const server = new KintoProxyServer();
+await server.startServer();
+```
+
+You can then connect to to the proxy server and use the same Node API with the following:
+
+```js
+import KintoServer from "kinto-node-test-server";
+// Note that the proxy server runs on port 8899
+const server = new KintoServer("http://0.0.0.0:8899/v1");
+```
 
 ## Configuration
 
