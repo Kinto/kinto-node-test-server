@@ -27,7 +27,7 @@ export default class KintoServer implements KintoTestServer {
       return res;
     } catch (err) {
       if (maxAttempts && attempt < maxAttempts) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             resolve(this._retryRequest(url, options, attempt + 1));
           }, 100);

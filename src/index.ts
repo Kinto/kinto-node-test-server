@@ -61,7 +61,7 @@ export default class KintoServer implements KintoTestServer {
       return res;
     } catch (err) {
       if (maxAttempts && attempt < maxAttempts) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           setTimeout(() => {
             resolve(this._retryRequest(url, options, attempt + 1));
           }, 100);
@@ -102,12 +102,12 @@ export default class KintoServer implements KintoTestServer {
     this.process.stderr!.on("data", (data: Buffer) => {
       this._logs.push(data);
     });
-    this.process.on("close", code => {
+    this.process.on("close", (code) => {
       if (code && code > 0) {
         console.error(
           new Error(
             "Server errors encountered:\n" +
-              this._logs.map(line => line.toString()).join("")
+              this._logs.map((line) => line.toString()).join("")
           )
         );
         console.error(new Error().stack);
@@ -134,13 +134,13 @@ export default class KintoServer implements KintoTestServer {
   stop(): Promise<void> {
     if (this.process) this.process.kill();
     this.process = null;
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => resolve(), 500);
     });
   }
 
   killAll(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (process.platform === "win32") {
         spawn("taskkill", ["/im", "pserve.exe"]).on("close", () => resolve());
       } else {
@@ -150,7 +150,7 @@ export default class KintoServer implements KintoTestServer {
   }
 
   logs(): Promise<string> {
-    return Promise.resolve(this._logs.map(line => line.toString()).join(""));
+    return Promise.resolve(this._logs.map((line) => line.toString()).join(""));
   }
 }
 

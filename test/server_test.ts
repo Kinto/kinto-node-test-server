@@ -14,7 +14,7 @@ describe("Kinto server proxy", () => {
     await proxy.stopServer();
   });
 
-  it("sets the config path on /config", async function() {
+  it("sets the config path on /config", async function () {
     const defaultConfigPath =
       proxy["kintoServer"]["options"]["kintoConfigPath"];
     await fetch("http://0.0.0.0:8899/config", {
