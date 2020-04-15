@@ -4,15 +4,15 @@ import sinon from "sinon";
 import KintoServer from "../src";
 
 function wait(ms: number) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => resolve(), ms);
   });
 }
 
-describe("Test Kinto server", function() {
+describe("Test Kinto server", function () {
   let server: KintoServer;
 
-  before(function() {
+  before(function () {
     let kintoConfigPath = path.resolve(path.join(__dirname, "../kinto.ini"));
     if (process.env.SERVER && process.env.SERVER !== "master") {
       kintoConfigPath = `${__dirname}/kinto-${process.env.SERVER}.ini`;
@@ -20,39 +20,39 @@ describe("Test Kinto server", function() {
     server = new KintoServer("http://0.0.0.0:8888/v1", { kintoConfigPath });
   });
 
-  after(function() {
+  after(function () {
     server.killAll();
   });
 
-  describe("Default test server", function() {
-    beforeEach(function() {
+  describe("Default test server", function () {
+    beforeEach(function () {
       this.timeout(5000);
       return server.start({});
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return server.stop();
     });
 
-    it("should ping a server", async function() {
+    it("should ping a server", async function () {
       const r = await server.ping();
       assert.equal(typeof r, "string");
     });
 
-    it("should flush a server", async function() {
+    it("should flush a server", async function () {
       const r = await server.flush();
       assert.equal(r.status, 202);
     });
 
-    it("should throw an error if already started", function() {
+    it("should throw an error if already started", function () {
       assert.throws(() => {
         server.start({});
       }, /^Error: Server is already started/);
     });
   });
 
-  describe("with invalid config", function() {
-    it("should call console.error", async function() {
+  describe("with invalid config", function () {
+    it("should call console.error", async function () {
       const consoleErrorStub = sinon.stub(console, "error");
       const serverWithInvalidConfig = new KintoServer(
         "http://0.0.0.0:8888/v1",
@@ -77,8 +77,8 @@ describe("Test Kinto server", function() {
     });
   });
 
-  describe("with non-existent pserve", function() {
-    it("should throw an error", async function() {
+  describe("with non-existent pserve", function () {
+    it("should throw an error", async function () {
       const serverWithInvalidPserve = new KintoServer(
         "http://0.0.0.0:8888/v1",
         { pservePath: "pserve-that-doesnt-exist" }

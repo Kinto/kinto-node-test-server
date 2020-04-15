@@ -16,7 +16,7 @@ describe("Kinto server in the browser", () => {
     await proxy.stopServer();
   });
 
-  it("sets the config path on /config", async function() {
+  it("sets the config path on /config", async function () {
     const defaultConfigPath =
       proxy["kintoServer"]["options"]["kintoConfigPath"];
     await server.loadConfig("test-path");
@@ -29,7 +29,7 @@ describe("Kinto server in the browser", () => {
     proxy["kintoServer"]["options"]["kintoConfigPath"] = defaultConfigPath;
   });
 
-  it("launches a Kinto server on /start", async function() {
+  it("launches a Kinto server on /start", async function () {
     this.timeout(5000);
     const http_api_version = await server.start({});
     assert.equal(typeof http_api_version, "string");
